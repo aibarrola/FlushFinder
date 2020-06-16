@@ -1,0 +1,19 @@
+body{
+    background-color: lightblue;
+}
+
+.center{
+    text-align: center;
+}
+
+
+/* SHOW PAGE FOR SPECIFIC TOILET */
+#showToilet{
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: rgb(236, 236, 236);
+}
+
+.headerName{
+    font-size: 3.5em;
+}

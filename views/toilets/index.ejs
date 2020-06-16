@@ -1,0 +1,28 @@
+<%-include ("../partials/header")%>
+
+
+<div class="ui grid">
+    <div class="fourteen wide centered column">
+        <div class="ui three cards">
+            <% for(var i=0;i<toilets.length;i++){ %>
+                
+                <div class="card">
+                    <div class="ui image">
+                    <img class="indeximg" src="<%= toilets[i].image %>">
+                    </div>
+                    <div class="content">
+                    <a class="header" href="/toilets/<%= toilets[i].id %>"> <%= toilets[i].name %> </a>
+                    </div>
+ 
+                    <div class="extra content">
+                        <%= toilets[i].address %>
+                    </div>
+
+                </div>
+            <% }; %>
+        </div>
+    </div>
+</div>
+
+
+<%-include ('../partials/footer')%>

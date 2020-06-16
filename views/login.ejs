@@ -1,0 +1,25 @@
+<%-include ("./partials/header")%>
+
+<!-- FORM TO LOGIN -->
+
+<div class="ui grid container">
+    <div class="five wide centered column">
+        <form class="ui huge form segment" action="/login" method="POST">
+            <h2 class="ui dividing header"> Login </h2>
+            <div class="required field">
+                <label> Username </label>
+                <input type="text" name="username" placeholder="username">
+            </div>
+            
+            <div class="required field">
+                <label> Password </label>
+                <input type="password" name="password" placeholder="password">
+            </div>
+            <div class="field">
+                <button class="ui right floated button blue"> Login </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%-include ("./partials/footer")%>
