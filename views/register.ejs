@@ -3,18 +3,23 @@
 <!-- FORM TO REGISTER -->
 
 <div class="ui grid container">
-    <div class="five wide centered column">
+    <div class="seven wide centered column">
         <form class="ui huge form segment" action="/register" method="POST">
             <h2 class="ui dividing header"> Register </h2>
             <div class="required field">
-                <label> Username </label>
-                <input type="text" name="username" placeholder="username">
+                <label> Email </label>
+                <input type="text" name="username" placeholder="email">
             </div>
-            <div class="required field">
-                <label> Full Name </label>
-                <input type="text" name="name" placeholder="full name">
-            </div>
-            
+            <div class="fields">
+                <div class="required field">
+                    <label> First Name </label>
+                    <input type="text" name="firstname" placeholder="first name">
+                </div>
+                <div class="required field">
+                    <label> Last Name </label>
+                    <input type="text" name="lastname" placeholder="last name">
+                </div>        
+            </div>    
             <div class="required field">
                 <label> Password </label>
                 <input type="password" name="password" placeholder="password">

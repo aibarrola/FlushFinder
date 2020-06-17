@@ -1,10 +1,12 @@
-var express     =require('express'),
-    app         =express(),
-    bodyParser  =require('body-parser'),
-    mongoose    =require('mongoose'),
-    Toilet      =require('./models/toilets'),
-    User        =require('./models/user'),
-    seedDB      =require('./seed')
+var express         =require('express'),
+    app             =express(),
+    bodyParser      =require('body-parser'),
+    mongoose        =require('mongoose'),
+    passport        =require("passport"),
+    LocalStrategy   =require("passport-local"),
+    Toilet          =require('./models/toilets'),
+    User            =require('./models/user'),
+    seedDB          =require('./seed')
 
 
 
