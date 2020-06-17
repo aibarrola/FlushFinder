@@ -1,7 +1,15 @@
 
+$('#multi-select').dropdown();
 
-$('.ui.fluid.dropdown')
+$('.label.ui.dropdown')
+  .dropdown();
+
+$('.no.label.ui.dropdown')
   .dropdown({
-    maxSelections: 3
-  })
-;
+  useLabels: false
+});
+
+$('.ui.button').on('click', function () {
+  $('.ui.dropdown')
+    .dropdown('restore defaults')
+})

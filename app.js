@@ -50,7 +50,12 @@ app.post("/", function(req,res){
     var image = req.body.image;
     var address = req.body.address;
     var type = req.body.type;
-    var newtoilet = {name:name, image:image, type:type, address:address};
+    var toilet = req.body.toilet;
+    var urinal = req.body.urinal;
+    var sink = req.body.sink;
+    var male = req.body.male;
+    var female = req.body.female;
+    var newtoilet = {name:name, image:image, type:type, address:address, toilet:toilet, urinal:urinal, sink:sink, male: male, female: female};
     //create a new campground and save to DB
     Toilet.create(newtoilet, function(err,newtoilet){
         if(err){

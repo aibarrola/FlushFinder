@@ -1,5 +1,5 @@
 body{
-    background-color: lightblue;
+    background-color: #0081A7;
 }
 
 .center{
@@ -11,9 +11,36 @@ body{
 #showToilet{
     margin-left: 10%;
     margin-right: 10%;
-    background-color: rgb(236, 236, 236);
+    background-color: #EBEBEB;
+}
+
+#showReview{
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #EBEBEB;
 }
 
 .headerName{
     font-size: 3.5em;
+    margin-bottom:0;
+}
+
+.headerDesc{
+    margin-top: 0;
+}
+
+.rFloat{
+    float:right;    
+}
+
+.ui.button{
+    color: rgba(0,0,0,.87);
+}
+
+#reviewButton{
+    background-color: #EA9010;
+}
+
+.star.icon{
+    color: #EA9010;
 }

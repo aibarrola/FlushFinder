@@ -5,7 +5,16 @@ var toiletSchema = new mongoose.Schema({
     name: String,
     address: String,
     image: String,
-    type: String
+    type: String,
+
+    toilet: Number,
+    urinal: Number,
+    sink: Number,
+
+    male: String,
+    female: String,
+
+    handicap: String
 
 });
 

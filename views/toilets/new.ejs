@@ -3,35 +3,62 @@
 <!-- FORM TO ADD A NEW TOILET -->
 
 <div class="ui grid container">
-    <div class="five wide centered column">
-        <form class="ui huge form segment" action="/" method="POST">
+    <div class="eight wide centered column">
+        <form class="ui huge segment form" action="/" method="POST">
             <h2 class="ui dividing header"> Adding Toilet </h2>
-            <div class="required field">
-                <label> Toilet Name </label>
-                <input type="text" name="name" required>
+            <div class="fields">
+                <div class="required twelve wide field">
+                    <label> Toilet Name </label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="required four wide field">
+                    <label> Type </label>
+                    <select name="type" class="ui icon dropdown" required>
+                        <option value="" >  </option>
+                        <option value="Public" class="lock open icon"> Public</option>
+                        <option value="Private"> <i class="lock icon"></i> Private</option>
+                        <div class="item">
+                            <i class="attention icon"></i>
+                            Important
+                          </div>
+                      </select>
+                </div>
             </div>
+            
+      
             <div class="required field">
                 <label> Address </label>
                 <input type="text" name="address"required>
             </div>
-            <div class="required field">
-                <label> Type </label>
-                <select name="type" class="ui dropdown" required>
-                    <option value="" >  </option>
-                    <option value="Public" >Public</option>
-                    <option value="Private">Private</option>
-                  </select>
+
+            <div class="fields">       
+                <div class="four wide field">
+                    <label> <i class="male icon"></i> Male </label>
+                    <input type="checkbox" name="male">
+                </div>
+                <div class="four wide field">
+                    <label> <i class="female icon"></i> Female </label>
+                    <input type="checkbox" name="female">                    
+                </div>
+                <div class="eight wide field">
+                    <label> <i class="handicap icon"> </i> Handicap accessible </label>
+                    <input type="checkbox" name="handicap">                    
+                </div>             
             </div>
 
-            <div class="required field">
-                <label> Amenities </label>
-                <select name="skills" multiple="" class="ui fluid dropdown">
-                    <option value="">Amenities</option>
-                  <option value="angular">Wifi</option>
-                  <option value="css">Febreeze Spray</option>
-                  <option value="design"> Baby Changing Table</option>
-                  <option value="ember">Ember</option>
-                </select>
+            <div class="fields">
+                <div class="required field">
+                    <label> Toilets </label>
+                    <input type="number" name="toilet" min="0" required> 
+                </div>
+                <div class="required field">
+                    <label> Urinals </label>
+                    <input type="number" name="urinal" min="0" required> 
+                </div>
+                <div class="required field">
+                    <label> Sinks </label>
+                    <input type="number" name="sink" min="0" required> 
+                </div>
             </div>
           
             <div class="required field">
@@ -40,7 +67,7 @@
             </div>
             
             <div class="field">
-                <button class="ui right floated button blue"> Add Toilet </button>
+                    <button class="ui button blue"> Add Toilet </button>
             </div>
         </form>
     </div>

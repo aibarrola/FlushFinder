@@ -16,6 +16,12 @@
  
                     <div class="extra content">
                         <%= toilets[i].address %>
+                        <span class="right floated">
+                            <% if(toilets[i].type === "Public")  { %> <i class="lock open icon"></i> <% }else{ %> <i class="lock icon"></i><% } %> 
+                            <% if(toilets[i].male){ %><i class="male icon"></i><% } %>
+                            <% if(toilets[i].female){ %> <i class="female icon"></i> <% } %>
+                            <% if(toilets[i].handicap){ %> <i class="handicap icon"></i> <% } %>    
+                        </span>   
                     </div>
 
                 </div>
