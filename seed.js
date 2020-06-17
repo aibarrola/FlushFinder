@@ -32,7 +32,7 @@ var data = [
     },
     {
         name: "Angelo's Toilet",
-        image: "https://images.unsplash.com/flagged/photo-1556438758-84625859c6b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
+        image: "https://secure.img1-fg.wfcdn.com/im/19098011/resize-h600-w600%5Ecompr-r85/8863/88634490/Drake%C2%AE+Two-Piece+Elongated+Dual+Flush+1.6+and+0.8+GPF+Universal+Height+Dynamax+Tornado+Flush%C2%AE+Toilet+With+CEFIONTET%C2%AE+With+Toilet+Seat+and+Toilet+Mounting+Bolts.jpg",
         address: "2000 Main St.",
         type: "Private",
         toilet: 1,
@@ -48,12 +48,12 @@ var data = [
 
 function seedDB(){
     //remove all users
-    User.deleteMany({}, function(err){
-        if(err){
-            console.log(err);
-        }
-        console.log("Removing Users...");
-    })
+    // User.deleteMany({}, function(err){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     console.log("Removing Users...");
+    // })
     //remove all toilets 
     Toilet.deleteMany({}, function(err){
         if(err){

@@ -25,6 +25,21 @@ app.use(bodyParser.urlencoded({extended: true}));    //use body parser
 app.set('view engine', 'ejs');                      //put .ejs at the end of file
 app.use(express.static(__dirname + "/public"));     //be able to access public static files ex. .css and .js
 
+//Passport configuration
+
+app.use(require("express-session")({
+    secret: "this-is-my-secret-key",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 seedDB() //Add toilets to the database
 
 
@@ -69,31 +84,6 @@ app.post("/", function(req,res){
     })
 });
 
-//show register form
-app.get("/register", function(req,res){
-    res.render("register");
-});
-
-//POST register form
-app.post("/register",function(req,res){
-    var newUser = {username: req.body.username, name:req.body.name};
-    User.create(newUser, req.body.password, function(err,newUser){
-        if(err){
-            console.log(err);
-        }
-        console.log(newUser);
-        res.redirect("/login");
-    })
-})
-
-//show login form
-app.get("/login", function(req,res){
-    res.render("login");
-});
-//POST login form
-app.post("/login", function(req,res){
-    res.redirect("/");
-});
 
 //SHOW more info about SPECIFIC toilet 
 app.get("/toilets/:id", function(req,res){
@@ -106,6 +96,39 @@ app.get("/toilets/:id", function(req,res){
             res.render("toilets/show",{toilet: foundToilet});
         }
     })
+});
+
+//show register form
+app.get("/register", function(req,res){
+    res.render("register");
+});
+
+//POST register logic
+app.post("/register",function(req,res){
+    var newUser = {username: req.body.username, firstname:req.body.firstname, lastname:req.body.lastname};
+    User.register(newUser, req.body.password, function(err,newUser){
+        if(err){
+            console.log(err);
+            return res.render("register")
+        }
+        passport.authenticate("local")(req,res,function(){
+        console.log(newUser);
+        res.redirect("/login");
+        })
+
+    })
+})
+
+//show login form
+app.get("/login", function(req,res){
+    res.render("login");
+});
+
+//POST login logic
+app.post("/login",passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login"       
+    }), function(req,res){
 });
 
 
