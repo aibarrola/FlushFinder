@@ -39,6 +39,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+})
 
 seedDB() //Add toilets to the database
 
@@ -56,12 +60,12 @@ app.get("/", function(req,res){
 });
 
 //show add toilet form
-app.get("/new",function(req,res){
+app.get("/new",isLoggedIn, function(req,res){
     res.render("toilets/new");
 });
 
 //POST toilet form
-app.post("/", function(req,res){
+app.post("/",isLoggedIn, function(req,res){
     //take the info from the form
     var name = req.body.name;
     var image = req.body.image;
@@ -131,6 +135,10 @@ app.post("/login",passport.authenticate("local", {
     }), function(req,res){
 });
 
+app.get("/logout",function(req,res){
+    req.logout();
+    res.redirect("/");
+})
 
 
 
@@ -139,6 +147,13 @@ app.post("/login",passport.authenticate("local", {
 app.get("*", function(req,res){
     res.send("Invalid ULR BITCH!");
 });
+
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 //Start the server
 var port = process.env.PORT || 3000;
