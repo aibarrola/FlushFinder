@@ -9,6 +9,13 @@ var express         =require('express'),
     Review          =require('./models/review')
     seedDB          =require('./seed')
 
+//requiring routes
+
+var indexRoutes     =require("./routes/index"),
+    toiletRoutes    =require("./routes/toilets"),
+    reviewRoutes    =require("./routes/reviews");
+
+
 
 
 //connect to the database
@@ -27,7 +34,6 @@ app.set('view engine', 'ejs');                      //put .ejs at the end of fil
 app.use(express.static(__dirname + "/public"));     //be able to access public static files ex. .css and .js
 
 //Passport configuration
-
 app.use(require("express-session")({
     secret: "this-is-my-secret-key",
     resave: false,
@@ -45,160 +51,14 @@ app.use(function(req,res,next){
     next();
 })
 
-seedDB() //Add toilets to the database
+seedDB() //Deletes all toilets&Reviews, then Add toilets to the database
 
 
-//toilet index
-app.get("/", function(req,res){
-    //get toilets from DB
-    Toilet.find({}, function(err, allToilets){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("toilets/index", {toilets: allToilets});
-        }
-    })
-});
+//Using Routes
+app.use("/toilets", toiletRoutes);
+app.use("/toilets/:id/reviews", reviewRoutes);
+app.use("/", indexRoutes);
 
-//show add toilet form
-app.get("/new",isLoggedIn, function(req,res){
-    res.render("toilets/new");
-});
-
-//POST toilet form
-app.post("/",isLoggedIn, function(req,res){
-    //take the info from the form
-    var name = req.body.name;
-    var image = req.body.image;
-    var address = req.body.address;
-    var type = req.body.type;
-    var toilet = req.body.toilet;
-    var urinal = req.body.urinal;
-    var sink = req.body.sink;
-    var male = req.body.male;
-    var female = req.body.female;
-    var newtoilet = {name:name, image:image, type:type, address:address, toilet:toilet, urinal:urinal, sink:sink, male: male, female: female};
-    //create a new campground and save to DB
-    Toilet.create(newtoilet, function(err,newtoilet){
-        if(err){
-            console.log(err);
-        }else{
-            console.log(newtoilet)
-            res.redirect("/")
-        }
-    })
-});
-
-
-//SHOW more info about SPECIFIC toilet 
-app.get("/toilets/:id", function(req,res){
-    //find toilet with the provided ID
-    Toilet.findById(req.params.id).populate("reviews").exec(function(err,foundToilet){
-        if(err){
-            console.log(err);
-        }else{
-            console.log(foundToilet);
-            res.render("toilets/show",{toilet: foundToilet});
-        }
-    })
-});
-
-//show register form
-app.get("/register", function(req,res){
-    res.render("register");
-});
-
-//POST register logic
-app.post("/register",function(req,res){
-    var newUser = {username: req.body.username, firstname:req.body.firstname, lastname:req.body.lastname};
-    User.register(newUser, req.body.password, function(err,newUser){
-        if(err){
-            console.log(err);
-            return res.render("register")
-        }
-        passport.authenticate("local")(req,res,function(){
-        console.log(newUser);
-        res.redirect("/login");
-        })
-
-    })
-})
-
-//show login form
-app.get("/login", function(req,res){
-    res.render("login");
-});
-
-//POST login logic
-app.post("/login",passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login"       
-    }), function(req,res){
-});
-
-//logout logic 
-app.get("/logout",function(req,res){
-    req.logout();
-    res.redirect("/");
-})
-
-//=============
-//REVIEW ROUTE
-//=============
-
-//show review form
-app.get("/toilets/:id/reviews/new",isLoggedIn, function(req,res){
-    //find toilet by id
-    Toilet.findById(req.params.id, function(err, toilet){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("reviews/new", {toilet: toilet});
-        }
-    })
-})
-
-//Review create 
-app.post("/toilets/:id/reviews",isLoggedIn, function(req,res){
-    Toilet.findById(req.params.id, function(err, toilet){
-        if(err){
-            console.log(err);
-            res.redirect("/");
-        }else{
-            //create new comment
-            Review.create(req.body.review, function(err, review){
-                if(err){
-                    console.log(err);
-                    res.redirect("/");           
-                }else{
-                    //add username and id to comment
-                    review.author.id = req.user._id;
-                    review.author.firstname = req.user.firstname;
-                    review.save();
-                
-                    //add review to toilet 
-                    toilet.reviews.push(review);
-                    toilet.save();
-                    res.redirect('/toilets/' + toilet._id);
-                }
-            })
-        }
-    })
-})
-            
-
-
-//For all invalid URLS
-app.get("*", function(req,res){
-    res.send("Invalid ULR BITCH!");
-});
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
 
 //Start the server
 var port = process.env.PORT || 3000;
