@@ -4,9 +4,11 @@ var passport = require("passport");
 var User = require("../models/user");
 var Toilet = require("../models/toilets");
 var Review = require("../models/review");
+var middleware = require("../middleware");
+
 
 //show review form
-router.get("/new",isLoggedIn, function(req,res){
+router.get("/new",middleware.isLoggedIn, function(req,res){
     //find toilet by id
     Toilet.findById(req.params.id, function(err, toilet){
         if(err){
@@ -18,7 +20,7 @@ router.get("/new",isLoggedIn, function(req,res){
 })
 
 //Review create 
-router.post("/",isLoggedIn, function(req,res){
+router.post("/",middleware.isLoggedIn, function(req,res){
     Toilet.findById(req.params.id, function(err, toilet){
         if(err){
             console.log(err);
@@ -44,13 +46,6 @@ router.post("/",isLoggedIn, function(req,res){
         }
     })
 })
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
 
 
 module.exports = router;

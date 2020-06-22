@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var Toilet = require("../models/toilets");
+var middleware = require("../middleware");
 
 //toilet index
 router.get("/", function(req,res){
@@ -18,12 +19,12 @@ router.get("/", function(req,res){
 
 
 //show add toilet form
-router.get("/new",isLoggedIn, function(req,res){
+router.get("/new",middleware.isLoggedIn, function(req,res){
     res.render("toilets/new");
 });
 
 //POST toilet form
-router.post("/",isLoggedIn, function(req,res){
+router.post("/",middleware.isLoggedIn, function(req,res){
     //take the info from the form
     var name = req.body.name;
     var image = req.body.image;
@@ -60,12 +61,5 @@ router.get("/:id", function(req,res){
     })
 });
 
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
 
 module.exports = router;
