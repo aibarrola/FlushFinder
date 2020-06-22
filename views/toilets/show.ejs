@@ -12,18 +12,18 @@
                         <i class="star large icon"></i>
                         <i class="star large icon"></i>
                         <i class="star large icon"></i>
-                        <span> (24) </span>
+                        <span> (<%= toilet.reviews.length %>) </span>
                     </div>      
                 <h4 class="headerDesc"> <%= toilet.address %> ·
                                         <%= toilet.type %> ·
-                                        <% if(toilet.male){ %>     <i class="male icon"></i><% } %>
-                                        <% if(toilet.female){ %>   <i class="female icon"></i> <% } %> |
-                                        <% if(toilet.handicap){ %> <i class="handicap icon"></i> <% } %>
+                                        <% if(toilet.male){ %>       <i class="male icon"></i><% } %>
+                                        <% if(toilet.female){ %>     <i class="female icon"></i> <% } %> 
+                                        <% if(toilet.handicap){ %> | <i class="handicap icon"></i> <% } %>
                 </h4>   
             </div>
             <br>
                 <div>
-                    <button id="reviewButton" class="ui button"> Write a Review <i class="pencil alternate icon"></i></button>
+                    <a href="/toilets/<%=toilet.id%>/reviews/new"> <button id="reviewButton" class="ui button"> Write a Review <i class="pencil alternate icon"></i></button> </a>
                     <button class="ui button"> Add Photo <i class="camera icon"></i></button>
                     <button class="ui button"> Get Directions <i class="arrow alternate circle right icon"></i></button>
                 </div>
@@ -105,22 +105,46 @@
 
 
     <div id="showReview" class="ui grid">
-        <div class="ten wide column">
-            <h1> Customer Reviews <span> (24) </span> </h1>          
+        <div class="sixteen wide column">
+            <h1> Customer Reviews <span> (<%= toilet.reviews.length %>) </span> </h1>          
+                <div class="ui four stackable cards">
+            <% toilet.reviews.forEach(function(review){ %>
+                <div class="ui card">
+                    <div class="content">
+                      <div class="center aligned header"><i class="star large icon"></i> <i class="star large icon"></i> <i class="star large icon"></i><i class="star large icon"></i> <i class="star large icon"></i></div>
+                      <div class="center aligned description">
+                        <p> <%= review.text %> </p>
+                      </div>
+                    </div>
+                    <div class="extra content">
+                      <div class="center aligned author">
+                        <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> <%= review.author.firstname %>
+                      </div>
+                    </div>
+                  </div>
 
-            <div class="ui card">
-                <div class="content">
-                  <div class="center aligned header"><i class="star large icon"></i> <i class="star large icon"></i> <i class="star large icon"></i><i class="star large icon"></i> <i class="star large icon"></i></div>
-                  <div class="center aligned description">
-                    <p> It was the best toilet experience of my life! I would pay to here again :)</p>
+            <% }) %>
+
+            <!-- ADD REVIEW CARD -->
+            <% if(toilet.reviews.length < 4){ %>
+                <div class="ui card">
+                    <div class="content">
+                      <div class="center aligned header">
+                          <i class="star large icon"></i> <i class="star large icon"></i> <i class="star large icon"></i><i class="star large icon"></i> <i class="star large icon"></i>
+                      </div>
+                      <div class="center aligned description">
+                          <span> Your review here! </span>
+                      </div>
+                    </div>
+                      <div class="extra content">
+                        <div class="center aligned author">
+                            <a href="/toilets/<%=toilet.id%>/reviews/new"> <button id="reviewButton" class="ui button"> Write a Review <i class="pencil alternate icon"></i></button> </a>
+                        </div>
+                    </div>
                   </div>
-                </div>
-                <div class="extra content">
-                  <div class="center aligned author">
-                    <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> Jenny
-                  </div>
-                </div>
-              </div>
+            <% } %>
+        </div>
+            
 
               
         </div> <!-- end of ten wide column-->

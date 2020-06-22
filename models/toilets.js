@@ -14,7 +14,14 @@ var toiletSchema = new mongoose.Schema({
     male: String,
     female: String,
 
-    handicap: String
+    handicap: String,
+
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ]
 
 });
 

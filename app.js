@@ -6,6 +6,7 @@ var express         =require('express'),
     LocalStrategy   =require("passport-local"),
     Toilet          =require('./models/toilets'),
     User            =require('./models/user'),
+    Review          =require('./models/review')
     seedDB          =require('./seed')
 
 
@@ -92,7 +93,7 @@ app.post("/",isLoggedIn, function(req,res){
 //SHOW more info about SPECIFIC toilet 
 app.get("/toilets/:id", function(req,res){
     //find toilet with the provided ID
-    Toilet.findById(req.params.id, function(err,foundToilet){
+    Toilet.findById(req.params.id).populate("reviews").exec(function(err,foundToilet){
         if(err){
             console.log(err);
         }else{
@@ -135,12 +136,56 @@ app.post("/login",passport.authenticate("local", {
     }), function(req,res){
 });
 
+//logout logic 
 app.get("/logout",function(req,res){
     req.logout();
     res.redirect("/");
 })
 
+//=============
+//REVIEW ROUTE
+//=============
 
+//show review form
+app.get("/toilets/:id/reviews/new",isLoggedIn, function(req,res){
+    //find toilet by id
+    Toilet.findById(req.params.id, function(err, toilet){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("reviews/new", {toilet: toilet});
+        }
+    })
+})
+
+//Review create 
+app.post("/toilets/:id/reviews",isLoggedIn, function(req,res){
+    Toilet.findById(req.params.id, function(err, toilet){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        }else{
+            //create new comment
+            Review.create(req.body.review, function(err, review){
+                if(err){
+                    console.log(err);
+                    res.redirect("/");           
+                }else{
+                    //add username and id to comment
+                    review.author.id = req.user._id;
+                    review.author.firstname = req.user.firstname;
+                    review.save();
+                
+                    //add review to toilet 
+                    toilet.reviews.push(review);
+                    toilet.save();
+                    res.redirect('/toilets/' + toilet._id);
+                }
+            })
+        }
+    })
+})
+            
 
 
 //For all invalid URLS
@@ -160,5 +205,3 @@ var port = process.env.PORT || 3000;
 app.listen(port, function(){
     console.log("FlushFinder Server has started!");
 })
-
-

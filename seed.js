@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Toilet = require("./models/toilets");
 var User = require("./models/user");
+var Review = require("./models/review");
 
 
 var data = [
@@ -42,35 +43,49 @@ var data = [
         female: "",
         handicap: ""
 
-    },
+    }
 
 ]
 
 function seedDB(){
-    //remove all users
-    // User.deleteMany({}, function(err){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     console.log("Removing Users...");
-    // })
-    //remove all toilets 
+    //Remove all toilets
     Toilet.deleteMany({}, function(err){
-        if(err){
-            console.log(err);
-        }
-        console.log("Removing Toilets...");
-        data.forEach(function(seed){
-            //add toilets 
-            Toilet.create(seed, function(err,toilet){
-                if(err){
-                    console.log(err)
-                }else{
-                    console.log("Added a new toilet.");
-                }
-            })
-        })
-    })
-}
-
-module.exports = seedDB;
+         if(err){
+             console.log(err);
+         }
+         console.log("removed toilets!");
+         //Remove all reviews
+         Review.deleteMany({}, function(err) {
+             if(err){
+                 console.log(err);
+             }
+             console.log("removed reviews!");
+              //add a few toilets
+             data.forEach(function(seed){
+                 Toilet.create(seed, function(err, toilet){
+                     if(err){
+                         console.log(err)
+                     } else {
+                         console.log("added a toilet");
+                         //create a comment
+                        //  Review.create(
+                        //      {
+                        //          text: "it stinks",
+                        //          author: "angelo"
+                        //      }, function(err, review){
+                        //          if(err){
+                        //              console.log(err);
+                        //          } else {
+                        //              toilet.reviews.push(review);
+                        //              toilet.save();
+                        //              console.log("Created new review");
+                        //          }
+                        //      });
+                     }
+                 });
+             });
+         });
+     }); 
+ }
+  
+ module.exports = seedDB;
