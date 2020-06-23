@@ -48,7 +48,7 @@ router.post("/",middleware.isLoggedIn, function(req,res){
 })
 
 //DELETE Review
-router.delete("/:review_id", function(req,res){
+router.delete("/:review_id",middleware.checkReviewOwnership, function(req,res){
     Review.findByIdAndRemove(req.params.review_id, function(err){
         if(err){
             res.redirect("/toilets");
@@ -59,7 +59,7 @@ router.delete("/:review_id", function(req,res){
 });
 
 //EDIT Review Form 
-router.get("/:review_id/edit", function(req,res){
+router.get("/:review_id/edit",middleware.checkReviewOwnership, function(req,res){
     Review.findById(req.params.review_id, function(err, foundReview){
         if(err){
             res.redirect("back");
@@ -71,7 +71,7 @@ router.get("/:review_id/edit", function(req,res){
 
 //UPDATE Review
 
-router.put("/:review_id", function(req,res){
+router.put("/:review_id", middleware.checkReviewOwnership, function(req,res){
     Review.findByIdAndUpdate(req.params.review_id, req.body.review, function(err, updatedReview){
         if(err){
             res.redirect("back");

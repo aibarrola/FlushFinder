@@ -28,8 +28,8 @@
                     
 
                 <h4 class="headerDesc"> <%= toilet.address %> ·
-                                        <%= toilet.type %> ·
-                                        <% if(toilet.male){ %>       <i class="male icon"></i><% } %>
+                                        <%= toilet.type %>
+                                        <% if(toilet.male){ %>·       <i class="male icon"></i><% } %>
                                         <% if(toilet.female){ %>     <i class="female icon"></i> <% } %> 
                                         <% if(toilet.handicap){ %> | <i class="handicap icon"></i> <% } %>
 
@@ -142,12 +142,15 @@
                     <div class="extra content">
                       <div class="center aligned author">
                         <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> <%= review.author.firstname %>
+
+                        <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
                           <div class="right floated">
                             <a class="ui circular mini icon button orange" href="/toilets/<%=toilet._id%>/reviews/<%=review._id%>/edit"> <i class="edit icon"></i> </a>
                             <form class="delete-form" action="/toilets/<%=toilet._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
                                 <button class="ui circular mini icon button red"><i class="trash icon"></i></button>
                             </form>
                           </div>
+                        <% } %>
                       </div>
                     </div>
                   </div>

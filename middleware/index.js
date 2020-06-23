@@ -34,4 +34,27 @@ middlewareObj.checkToiletOwnership = function(req,res,next){
     }
 }
 
+//check review ownership
+
+middlewareObj.checkReviewOwnership = function(req,res,next){
+    if(req.isAuthenticated()){
+        Review.findById(req.params.review_id, function(err, foundReview){
+            if(err){
+                res.redirect("back");
+            }else{
+                //check if user own review
+                if(foundReview.author.id.equals(req.user._id)){
+                    next();
+                }else{
+                    console.log("does not own review");
+                    res.redirect("back");
+                }
+            }
+        });
+    }else{
+        console.log("you need to be logged in ");
+        res.redirect("back");
+    }
+}
+
 module.exports = middlewareObj
