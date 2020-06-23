@@ -4,6 +4,7 @@ var express         =require('express'),
     mongoose        =require('mongoose'),
     passport        =require("passport"),
     LocalStrategy   =require("passport-local"),
+    methodOverride  =require("method-override"),
     Toilet          =require('./models/toilets'),
     User            =require('./models/user'),
     Review          =require('./models/review')
@@ -32,6 +33,7 @@ db.once('open', function () {
 app.use(bodyParser.urlencoded({extended: true}));    //use body parser
 app.set('view engine', 'ejs');                      //put .ejs at the end of file
 app.use(express.static(__dirname + "/public"));     //be able to access public static files ex. .css and .js
+app.use(methodOverride("_method"));                 //use method override 
 
 //Passport configuration
 app.use(require("express-session")({

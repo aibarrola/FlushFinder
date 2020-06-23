@@ -47,5 +47,38 @@ router.post("/",middleware.isLoggedIn, function(req,res){
     })
 })
 
+//DELETE Review
+router.delete("/:review_id", function(req,res){
+    Review.findByIdAndRemove(req.params.review_id, function(err){
+        if(err){
+            res.redirect("/toilets");
+        }else{
+            res.redirect("/toilets/" + req.params.id);
+        }
+    });
+});
+
+//EDIT Review Form 
+router.get("/:review_id/edit", function(req,res){
+    Review.findById(req.params.review_id, function(err, foundReview){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.render("reviews/edit", {toilet_id: req.params.id, review: foundReview})
+        }
+    });
+});
+
+//UPDATE Review
+
+router.put("/:review_id", function(req,res){
+    Review.findByIdAndUpdate(req.params.review_id, req.body.review, function(err, updatedReview){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.redirect("/toilets/" + req.params.id);
+        }
+    });
+});
 
 module.exports = router;

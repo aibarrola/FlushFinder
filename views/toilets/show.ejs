@@ -4,21 +4,39 @@
 
     <div id="showToilet" class="ui grid">
         <div class="ten wide column">
-            <div>   
-                <h1 class="headerName"> <%= toilet.name %> </h1>
-                    <div class="rFloat">
-                        <i class="star large icon"></i>
-                        <i class="star large icon"></i>
-                        <i class="star large icon"></i>
-                        <i class="star large icon"></i>
-                        <i class="star large icon"></i>
-                        <span> (<%= toilet.reviews.length %>) </span>
-                    </div>      
+            <div>
+            
+                <h1 class="headerName">
+                                        <%= toilet.name %>
+
+                                        <div class="toiletEditDelete rFloat">
+                                            <form class="delete-form" action="/toilets/<%=toilet.id%>/edit" method="GET">
+                                                <button class="ui orange button"> Edit </button>
+                                            </form>
+
+                                            </form>
+                                            <form class="delete-form" action="/toilets/<%=toilet.id%>?_method=DELETE" method="POST">
+                                                <button class="ui red button"> Delete</button>
+                                            </form>
+                                        </div>
+                </h1>
+            
+                    
+
                 <h4 class="headerDesc"> <%= toilet.address %> ·
                                         <%= toilet.type %> ·
                                         <% if(toilet.male){ %>       <i class="male icon"></i><% } %>
                                         <% if(toilet.female){ %>     <i class="female icon"></i> <% } %> 
                                         <% if(toilet.handicap){ %> | <i class="handicap icon"></i> <% } %>
+
+                                        <div class="rFloat">
+                                            <i class="star large icon"></i>
+                                            <i class="star large icon"></i>
+                                            <i class="star large icon"></i>
+                                            <i class="star large icon"></i>
+                                            <i class="star large icon"></i>
+                                            <span> (<%= toilet.reviews.length %>) </span>
+                                        </div>      
                 </h4>   
             </div>
             <br>
@@ -26,6 +44,7 @@
                     <a href="/toilets/<%=toilet.id%>/reviews/new"> <button id="reviewButton" class="ui button"> Write a Review <i class="pencil alternate icon"></i></button> </a>
                     <button class="ui button"> Add Photo <i class="camera icon"></i></button>
                     <button class="ui button"> Get Directions <i class="arrow alternate circle right icon"></i></button>
+                    
                 </div>
 
             <div class="ui clearing divider"></div>
@@ -119,6 +138,12 @@
                     <div class="extra content">
                       <div class="center aligned author">
                         <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> <%= review.author.firstname %>
+                          <div class="right floated">
+                            <a class="ui circular mini icon button orange" href="/toilets/<%=toilet._id%>/reviews/<%=review._id%>/edit"> <i class="edit icon"></i> </a>
+                            <form class="delete-form" action="/toilets/<%=toilet._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                                <button class="ui circular mini icon button red"><i class="trash icon"></i></button>
+                            </form>
+                          </div>
                       </div>
                     </div>
                   </div>

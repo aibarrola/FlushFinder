@@ -44,3 +44,12 @@ body{
 .star.icon{
     color: #EA9010;
 }
+
+.delete-form{
+    display:inline;
+}
+
+.toiletEditDelete{
+    position:relative;
+    top: -10px;
+}

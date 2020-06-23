@@ -1,0 +1,17 @@
+<%-include ("../partials/header")%>
+
+<!-- FORM TO EDIT A REVIEW -->
+
+<div class="ui grid container">
+    <div class="eight wide centered column">
+        <form class="ui huge segment form" action="/toilets/<%=toilet_id%>/reviews/<%= review._id%>?_method=PUT" method="POST">
+            <h2 class="ui dividing header"> Editing Review </h2>
+                <div class="sixteen wide field">
+                    <input type="text" name="review[text]" value="<%=review.text%>" required>
+                </div>
+                <button class="ui button blue"> Update Review </button>
+        </form>
+    </div>
+</div>
+
+<%-include ("../partials/footer")%>

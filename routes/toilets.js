@@ -61,5 +61,43 @@ router.get("/:id", function(req,res){
     })
 });
 
+//DELETE toilet
+
+router.delete("/:id", function(req,res){
+    Toilet.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.redirect("/toilets");
+        }
+    })
+})
+
+
+//EDIT toilet form
+
+router.get("/:id/edit", function(req,res){
+    Toilet.findById(req.params.id, function(err, foundToilet){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.render("toilets/edit", {toilet: foundToilet});
+        }
+    })
+})
+
+//UPDATE toilet
+
+router.put("/:id", function(req,res){
+    //find and update the correct toilet
+    Toilet.findByIdAndUpdate(req.params.id, req.body, function(err, updatedToilet){
+        if(err){
+            res.redirect("/toilets");
+        }else{
+            res.redirect("/toilets/" + req.params.id);
+        }
+    })
+})
+
 
 module.exports = router;
