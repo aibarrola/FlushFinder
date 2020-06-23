@@ -16,7 +16,6 @@ var data = [
         male: "male",
         female: "",
         handicap: "handicap"
-
     },
     {
         name: "KFC Toilet",

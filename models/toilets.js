@@ -15,6 +15,14 @@ var toiletSchema = new mongoose.Schema({
     female: String,
 
     handicap: String,
+    
+    author:{
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    },
 
     reviews: [
         {

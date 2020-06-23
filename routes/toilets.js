@@ -35,7 +35,11 @@ router.post("/",middleware.isLoggedIn, function(req,res){
     var sink = req.body.sink;
     var male = req.body.male;
     var female = req.body.female;
-    var newtoilet = {name:name, image:image, type:type, address:address, toilet:toilet, urinal:urinal, sink:sink, male: male, female: female};
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    var newtoilet = {name:name, image:image, type:type, address:address, toilet:toilet, urinal:urinal, sink:sink, male: male, female: female, author: author};
     //create a new campground and save to DB
     Toilet.create(newtoilet, function(err,newtoilet){
         if(err){
@@ -63,7 +67,7 @@ router.get("/:id", function(req,res){
 
 //DELETE toilet
 
-router.delete("/:id", function(req,res){
+router.delete("/:id",middleware.checkToiletOwnership, function(req,res){
     Toilet.findByIdAndRemove(req.params.id, function(err){
         if(err){
             res.redirect("back");
@@ -76,19 +80,15 @@ router.delete("/:id", function(req,res){
 
 //EDIT toilet form
 
-router.get("/:id/edit", function(req,res){
+router.get("/:id/edit",middleware.checkToiletOwnership, function(req,res){
     Toilet.findById(req.params.id, function(err, foundToilet){
-        if(err){
-            res.redirect("back");
-        }else{
-            res.render("toilets/edit", {toilet: foundToilet});
-        }
-    })
-})
+        res.render("toilets/edit", {toilet: foundToilet}); 
+    });
+});
 
 //UPDATE toilet
 
-router.put("/:id", function(req,res){
+router.put("/:id",middleware.checkToiletOwnership, function(req,res){
     //find and update the correct toilet
     Toilet.findByIdAndUpdate(req.params.id, req.body, function(err, updatedToilet){
         if(err){
