@@ -2,6 +2,7 @@ var express         =require('express'),
     app             =express(),
     bodyParser      =require('body-parser'),
     mongoose        =require('mongoose'),
+    flash           =require('connect-flash'),
     passport        =require("passport"),
     LocalStrategy   =require("passport-local"),
     methodOverride  =require("method-override"),
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}));    //use body parser
 app.set('view engine', 'ejs');                      //put .ejs at the end of file
 app.use(express.static(__dirname + "/public"));     //be able to access public static files ex. .css and .js
 app.use(methodOverride("_method"));                 //use method override 
+app.use(flash());                                   //use connect-flash 
 
 //Passport configuration
 app.use(require("express-session")({
@@ -50,10 +52,12 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 })
 
-seedDB() //Deletes all toilets&Reviews, then Add toilets to the database
+//seedDB() //Deletes all toilets&Reviews, then Add toilets to the database
 
 
 //Using Routes

@@ -8,6 +8,7 @@ middlewareObj.isLoggedIn = function(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
+    req.flash("error", "Please login first!");
     res.redirect("/login");
 }
 
@@ -23,13 +24,13 @@ middlewareObj.checkToiletOwnership = function(req,res,next){
                 if(foundToilet.author.id.equals(req.user._id)){
                     next();
                 }else{
-                    console.log("does not own toilet")
+                    req.flash("error", "You are not authorized to do that!");
                     res.redirect("back");
                 }
             }
         });
     }else{
-        console.log("you need to be logged in ");
+        req.flash("error", "Please login first!");
         res.redirect("back");
     }
 }
@@ -46,13 +47,13 @@ middlewareObj.checkReviewOwnership = function(req,res,next){
                 if(foundReview.author.id.equals(req.user._id)){
                     next();
                 }else{
-                    console.log("does not own review");
+                    req.flash("error", "You are not authorized to do that!");
                     res.redirect("back");
                 }
             }
         });
     }else{
-        console.log("you need to be logged in ");
+        req.flash("error", "Please login first!");
         res.redirect("back");
     }
 }

@@ -3,6 +3,9 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var Toilet = require("../models/toilets");
+var Review = require("../models/review");
+var middleware = require("../middleware");
+
 
 //toilet index
 router.get("/", function(req,res){
@@ -27,10 +30,12 @@ router.post("/register",function(req,res){
     User.register(newUser, req.body.password, function(err,newUser){
         if(err){
             console.log(err);
-            return res.render("register")
+            req.flash("error", err.message);
+            return res.redirect("/register")
         }
         passport.authenticate("local")(req,res,function(){
         console.log(newUser);
+        req.flash("success", "Welcome to FlushFinder," + user.firstname);
         res.redirect("/toilets");
         })
 
@@ -52,8 +57,25 @@ router.post("/login",passport.authenticate("local", {
 //logout logic 
 router.get("/logout",function(req,res){
     req.logout();
+    req.flash("success", "Successfully logged out!");
     res.redirect("/");
 })
+
+router.get("/profile",middleware.isLoggedIn,function(req,res){
+    Toilet.find(req.params.id, function(err, allToilet){
+        if(err){
+            res.redirect("back");
+        }else{
+            Review.find(req.params.id, function(err, allReview){
+                if(err){
+                    res.redirect("back");
+                }else{
+                    res.render("profile", {toilets:allToilet, reviews:allReview})
+                }
+            })
+        }
+    })
+});
 
 //For all invalid URLS
 router.get("*", function(req,res){

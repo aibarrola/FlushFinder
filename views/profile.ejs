@@ -1,0 +1,87 @@
+<%-include ("./partials/header")%>
+
+<div class="ui two column centered container grid">
+    <div class="column row">
+        <h1><%=currentUser.firstname%> <%=currentUser.lastname%></h1> 
+    </div>
+
+    <div class="column row">
+
+        <div class="column">
+            <h2> Recent Reviews </h2>
+            <% for(var i=0;i<reviews.length;i++){ %>
+                <% if(reviews[i].author.id.equals(currentUser._id)){ %>
+                    <div class="ui card">
+                        <div class="content">
+                            <!-- LATER PUT THE NAME OF THE TOILET THE REVIEW IS FOR <div class="center aligned header"> <%=toilets.name%></div> -->
+                          <div class="center aligned header"><i class="star large icon"></i> <i class="star large icon"></i> <i class="star large icon"></i><i class="star large icon"></i> <i class="star large icon"></i></div>
+                          <div class="center aligned description">
+                            <p> <%= reviews[i].text %> </p>
+                          </div>
+                        </div>
+                        <div class="extra content">
+                          <div class="center aligned author">
+                            <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> <%= reviews[i].author.firstname %>
+    
+
+                            <% for(var j=0;j<toilets.length;j++){ %>
+                                <% if(toilets[j].author.id.equals(currentUser._id)){ %>
+
+                              <div class="right floated">
+                                <a class="ui circular mini icon button orange" href="/toilets/<%=toilets[j]._id%>/reviews/<%=reviews[i]._id%>/edit"> <i class="edit icon"></i> </a>
+                                <form class="delete-form" action="/toilets/<%=toilets[j]._id%>/reviews/<%=reviews[i]._id%>?_method=DELETE" method="POST">
+                                    <button class="ui circular mini icon button red"><i class="trash icon"></i></button>
+                                </form>
+                              </div>
+                              <% } %>
+                              <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    <% } %>
+            <% } %>
+        </div>
+    
+        <div class="column">
+            <h2> Your Toilets </h2>
+            <div class="ui two cards">
+                <!-- LOOP THROUGH ALL TOILETS AND ONLY SHOW USER'S OWNED TOILETS -->
+                <% for(var i=0;i<toilets.length;i++){ %>
+                    <% if(toilets[i].author.id.equals(currentUser._id)){ %>
+                    <div class="card">
+                        <div class="ui image">
+                        <img class="indeximg" src="<%= toilets[i].image %>">
+                        </div>
+                        <div class="content">
+                        <a class="header" href="/toilets/<%= toilets[i].id %>"> <%= toilets[i].name %></a>
+                        </div>
+                        <div class="extra content">
+                            <%= toilets[i].address %>
+                            <span class="right floated">
+                                <% if(toilets[i].type === "Public")  { %> <i class="lock open icon"></i> <% }else{ %> <i class="lock icon"></i><% } %> 
+                                <% if(toilets[i].male){ %><i class="male icon"></i><% } %>
+                                <% if(toilets[i].female){ %> <i class="female icon"></i> <% } %>
+                                <% if(toilets[i].handicap){ %> <i class="handicap icon"></i> <% } %>    
+                            </span>   
+                        </div>
+                    </div>
+        
+                    <% } %>
+                <% }; %>
+            </div>         
+        </div>
+    </div>
+    
+
+
+    
+</div>
+
+
+
+
+
+
+
+<%-include ("./partials/footer")%>
+

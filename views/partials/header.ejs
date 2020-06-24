@@ -40,7 +40,7 @@
             Register
           </a>
         <% } else { %>
-          <a class="ui item" href="/">
+          <a class="ui item" href="/profile">
             <%= currentUser.firstname %>
           </a>
           <a class="ui item" href="/logout">
@@ -49,5 +49,26 @@
         <% } %>
         </div>
       </div>
+
+
+      <!-- SHOW MESSAGES -->
+      <div>
+        <% if(error && error.length > 0) { %>
+          <div class="ui container">
+            <div class="ui warning message" role="alert"> <%= error %> </div>
+          </div>
+        <% } %>
+
+        <% if(success && success.length > 0){ %>
+          <div class="ui container">
+            <div class="ui success message" role="alert"> <%= success %> </div>
+          </div>
+        <% } %>
+        <br> 
+      </div>
+        
+       
+        
+
 
    

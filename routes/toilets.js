@@ -40,12 +40,12 @@ router.post("/",middleware.isLoggedIn, function(req,res){
         username: req.user.username
     }
     var newtoilet = {name:name, image:image, type:type, address:address, toilet:toilet, urinal:urinal, sink:sink, male: male, female: female, author: author};
-    //create a new campground and save to DB
+    //create a new toilet and save to DB
     Toilet.create(newtoilet, function(err,newtoilet){
         if(err){
             console.log(err);
         }else{
-            console.log(newtoilet)
+            req.flash("success", "Successfully created a toilet!");
             res.redirect("/")
         }
     })
@@ -94,6 +94,8 @@ router.put("/:id",middleware.checkToiletOwnership, function(req,res){
         if(err){
             res.redirect("/toilets");
         }else{
+            console.log("updated toilet")
+            console.log(req.body);
             res.redirect("/toilets/" + req.params.id);
         }
     })
